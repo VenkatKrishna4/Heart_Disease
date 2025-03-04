@@ -39,7 +39,7 @@ def set_background(image_url):
     """
     st.markdown(page_bg, unsafe_allow_html=True)
 
-set_background("https://raw.githubusercontent.com/VenkatKrishna4/Medibot_project/main/background.png")
+set_background("https://raw.githubusercontent.com/VenkatKrishna4/Heart_Disease/main/background.png")
 
 st.title("🩺 Heart Disease Predictor")
 
