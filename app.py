@@ -37,7 +37,7 @@ def set_background(image_file):
     st.markdown(page_bg, unsafe_allow_html=True)
 
 # Set local background image
-set_background("Medibot_project/background.png")
+set_background("https://raw.githubusercontent.com/VenkatKrishna4/Heart_Disease/main/background.png")
 
 # Input fields
 gender = st.selectbox("Gender", ["Male", "Female"])
