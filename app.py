@@ -41,7 +41,7 @@ def set_background(image_url):
 
 set_background("https://raw.githubusercontent.com/VenkatKrishna4/Medibot_project/main/background.png")
 
-st.title("🩺 Medical Prediction System")
+st.title("🩺 Heart Disesase Predictor")
 
 disease_type = st.radio("Select the disease to predict:", ["Stroke", "Congestive Heart Failure (CHF)"])
 
