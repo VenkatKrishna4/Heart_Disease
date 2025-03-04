@@ -89,7 +89,7 @@ if disease_type == "Stroke":
 
 # 🔹 CHF Prediction Inputs
 elif disease_type == "Congestive Heart Failure (CHF)":
-    st.subheader("💓 CHF Prediction")
+    st.subheader("❤️ CHF Prediction")
     
     age = st.number_input("Age", min_value=1, max_value=100, value=50)
     sex = st.selectbox("Sex", ["Male", "Female"])
