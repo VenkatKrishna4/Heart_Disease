@@ -4,10 +4,9 @@ import numpy as np
 import base64
 import os
 
-# 📌 Install missing dependencies on Streamlit Cloud (if required)
 os.system("pip install -r requirements.txt")
 
-# 📌 Load Models
+# Loading the Models
 stroke_model_path = "stroke_prediction_model.pkl"
 chf_model_path = "chf_prediction_model.pkl"
 
@@ -15,15 +14,14 @@ try:
     with open(stroke_model_path, "rb") as file:
         stroke_model = pickle.load(file)
 except Exception as e:
-    st.error(f"❌ Error loading Stroke Prediction model: {e}")
+    st.error(f"Error loading Stroke Prediction model: {e}")
 
 try:
     with open(chf_model_path, "rb") as file:
         chf_model = pickle.load(file)
 except Exception as e:
-    st.error(f"❌ Error loading CHF Prediction model: {e}")
+    st.error(f"Error loading CHF Prediction model: {e}")
 
-# 🎨 Set Background Image from GitHub (for Streamlit Cloud)
 def set_background(image_url):
     page_bg = f"""
     <style>
@@ -41,17 +39,14 @@ def set_background(image_url):
     """
     st.markdown(page_bg, unsafe_allow_html=True)
 
-# 🖼 Set Background Image (CHANGE TO YOUR GITHUB IMAGE LINK)
 set_background("https://raw.githubusercontent.com/VenkatKrishna4/Medibot_project/main/background.png")
 
-# 🏥 Streamlit UI
 st.title("🩺 Medical Prediction System")
 st.write("Enter patient details to predict **Stroke** or **Congestive Heart Failure (CHF)**.")
 
-# 🔘 Select Disease Type
 disease_type = st.radio("Select the disease to predict:", ["Stroke", "Congestive Heart Failure (CHF)"])
 
-# 🔹 Stroke Prediction Inputs
+# Stroke disesase
 if disease_type == "Stroke":
     st.subheader("🧠 Stroke Prediction")
     
@@ -75,7 +70,7 @@ if disease_type == "Stroke":
     residence_type = 1 if residence_type == "Urban" else 0
     smoking_status = ["Never smoked", "Formerly smoked", "Smokes", "Unknown"].index(smoking_status)
 
-    # ✅ Prediction Button
+
     if st.button("Predict Stroke Risk"):
         features = np.array([[gender, age, hypertension, heart_disease, ever_married, work_type,
                               residence_type, avg_glucose_level, bmi, smoking_status]])
@@ -87,7 +82,7 @@ if disease_type == "Stroke":
         else:
             st.success("✅ Low risk of stroke! Maintain a healthy lifestyle.")
 
-# 🔹 CHF Prediction Inputs
+# CHF Prediction
 elif disease_type == "Congestive Heart Failure (CHF)":
     st.subheader("❤️ CHF Prediction")
     
@@ -111,7 +106,6 @@ elif disease_type == "Congestive Heart Failure (CHF)":
     exercise_angina = 1 if exercise_angina == "Yes" else 0
     st_slope = ["Up", "Flat", "Down"].index(st_slope)
 
-    # ✅ Prediction Button
     if st.button("Predict CHF Risk"):
         features = np.array([[age, sex, chest_pain, resting_bp, cholesterol, fasting_bs, resting_ecg, max_hr,
                               exercise_angina, oldpeak, st_slope]])
