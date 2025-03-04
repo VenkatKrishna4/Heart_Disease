@@ -42,7 +42,6 @@ def set_background(image_url):
 set_background("https://raw.githubusercontent.com/VenkatKrishna4/Medibot_project/main/background.png")
 
 st.title("🩺 Medical Prediction System")
-st.write("Enter patient details to predict **Stroke** or **Congestive Heart Failure (CHF)**.")
 
 disease_type = st.radio("Select the disease to predict:", ["Stroke", "Congestive Heart Failure (CHF)"])
 
