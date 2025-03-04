@@ -2,8 +2,12 @@ import streamlit as st
 import pickle
 import numpy as np
 import base64
+import os
 
-# Load Stroke Prediction Model
+# 📌 Install missing dependencies on Streamlit Cloud (if required)
+os.system("pip install -r requirements.txt")
+
+# 📌 Load Models
 stroke_model_path = "stroke_prediction_model.pkl"
 chf_model_path = "chf_prediction_model.pkl"
 
@@ -11,27 +15,20 @@ try:
     with open(stroke_model_path, "rb") as file:
         stroke_model = pickle.load(file)
 except Exception as e:
-    st.error(f"Error loading Stroke Prediction model: {e}")
+    st.error(f"❌ Error loading Stroke Prediction model: {e}")
 
 try:
     with open(chf_model_path, "rb") as file:
         chf_model = pickle.load(file)
 except Exception as e:
-    st.error(f"Error loading CHF Prediction model: {e}")
+    st.error(f"❌ Error loading CHF Prediction model: {e}")
 
-# Streamlit UI
-st.title("🧠 Medical Prediction System")
-st.write("Enter patient details to predict the risk of **Stroke** or **Congestive Heart Failure (CHF)**.")
-
-# Function to set background image
-def set_background(image_file):
-    with open(image_file, "rb") as img:
-        base64_img = base64.b64encode(img.read()).decode()
-    
+# 🎨 Set Background Image from GitHub (for Streamlit Cloud)
+def set_background(image_url):
     page_bg = f"""
     <style>
     [data-testid="stAppViewContainer"] {{
-        background-image: url("data:image/jpeg;base64,{base64_img}");
+        background-image: url("{image_url}");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -44,16 +41,20 @@ def set_background(image_file):
     """
     st.markdown(page_bg, unsafe_allow_html=True)
 
-# Set local background image
-set_background("C:/Users/gudur/Medibot_project/background.png")
+# 🖼 Set Background Image (CHANGE TO YOUR GITHUB IMAGE LINK)
+set_background("https://raw.githubusercontent.com/VenkatKrishna4/Medibot_project/main/background.png")
 
-# Select Disease Type
+# 🏥 Streamlit UI
+st.title("🩺 Medical Prediction System")
+st.write("Enter patient details to predict **Stroke** or **Congestive Heart Failure (CHF)**.")
+
+# 🔘 Select Disease Type
 disease_type = st.radio("Select the disease to predict:", ["Stroke", "Congestive Heart Failure (CHF)"])
 
-# 👉 Stroke Prediction Inputs
+# 🔹 Stroke Prediction Inputs
 if disease_type == "Stroke":
-    st.subheader("Stroke Prediction")
-
+    st.subheader("🧠 Stroke Prediction")
+    
     gender = st.selectbox("Gender", ["Male", "Female"])
     age = st.number_input("Age", min_value=1, max_value=100, value=30)
     hypertension = st.selectbox("Hypertension", ["No", "Yes"])
@@ -74,7 +75,7 @@ if disease_type == "Stroke":
     residence_type = 1 if residence_type == "Urban" else 0
     smoking_status = ["Never smoked", "Formerly smoked", "Smokes", "Unknown"].index(smoking_status)
 
-    # Prediction button
+    # ✅ Prediction Button
     if st.button("Predict Stroke Risk"):
         features = np.array([[gender, age, hypertension, heart_disease, ever_married, work_type,
                               residence_type, avg_glucose_level, bmi, smoking_status]])
@@ -86,10 +87,10 @@ if disease_type == "Stroke":
         else:
             st.success("✅ Low risk of stroke! Maintain a healthy lifestyle.")
 
-# 👉 CHF Prediction Inputs
+# 🔹 CHF Prediction Inputs
 elif disease_type == "Congestive Heart Failure (CHF)":
-    st.subheader("Congestive Heart Failure (CHF) Prediction")
-
+    st.subheader("💓 CHF Prediction")
+    
     age = st.number_input("Age", min_value=1, max_value=100, value=50)
     sex = st.selectbox("Sex", ["Male", "Female"])
     chest_pain = st.selectbox("Chest Pain Type", ["Typical Angina", "Atypical Angina", "Non-Anginal Pain", "Asymptomatic"])
@@ -110,7 +111,7 @@ elif disease_type == "Congestive Heart Failure (CHF)":
     exercise_angina = 1 if exercise_angina == "Yes" else 0
     st_slope = ["Up", "Flat", "Down"].index(st_slope)
 
-    # Prediction button
+    # ✅ Prediction Button
     if st.button("Predict CHF Risk"):
         features = np.array([[age, sex, chest_pain, resting_bp, cholesterol, fasting_bs, resting_ecg, max_hr,
                               exercise_angina, oldpeak, st_slope]])
@@ -121,4 +122,3 @@ elif disease_type == "Congestive Heart Failure (CHF)":
             st.error("⚠️ High risk of Congestive Heart Failure! Consult a doctor immediately.")
         else:
             st.success("✅ Low risk of CHF! Maintain a healthy lifestyle.")
-
