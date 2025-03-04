@@ -1,7 +1,6 @@
 import streamlit as st
 import pickle
 import numpy as np
-import base64
 
 # Load the trained model
 model_path = "stroke_prediction_model.pkl"
@@ -9,35 +8,31 @@ model_path = "stroke_prediction_model.pkl"
 try:
     with open(model_path, "rb") as file:
         model = pickle.load(file)
+    st.success("✅ Model Loaded Successfully!")
 except Exception as e:
-    st.error(f"Error loading model: {e}")
+    st.error(f"⚠️ Error loading model: {e}")
 
-# Streamlit UI
-st.title("🧠 Stroke Prediction System")
-st.write("Enter patient details to predict the risk of stroke.")
-
-def set_background(image_file):
-    with open(image_file, "rb") as img:
-        base64_img = base64.b64encode(img.read()).decode()
-    
+# 👉 Set background using GitHub image URL (No base64 needed!)
+def set_background(image_url):
     page_bg = f"""
     <style>
     [data-testid="stAppViewContainer"] {{
-        background-image: url("data:image/jpeg;base64,{base64_img}");
+        background-image: url("{image_url}");
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
         background-attachment: fixed;
     }}
-    [data-testid="stHeader"], [data-testid="stToolbar"] {{
-        background: rgba(0,0,0,0);
-    }}
     </style>
     """
     st.markdown(page_bg, unsafe_allow_html=True)
 
-# Set local background image
+# ✅ Use GitHub raw URL for background image
 set_background("https://raw.githubusercontent.com/VenkatKrishna4/Heart_Disease/main/background.png")
+
+# Streamlit UI
+st.title("🧠 Stroke Prediction System")
+st.write("Enter patient details to predict the risk of stroke.")
 
 # Input fields
 gender = st.selectbox("Gender", ["Male", "Female"])
@@ -66,7 +61,6 @@ if st.button("Predict Stroke Risk"):
                           residence_type, avg_glucose_level, bmi, smoking_status]])
     
     prediction = model.predict(features)
-    
 
     if prediction[0] == 1:
         st.error("⚠️ High risk of stroke! Consult a doctor immediately.")
