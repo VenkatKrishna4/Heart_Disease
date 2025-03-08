@@ -55,7 +55,6 @@ print("\n Classification Report: \n",classification_report(y_test,y_pred))
 
 import pickle
 
-# Save the trained model
 with open("stroke_prediction_model.pkl", "wb") as file:
     pickle.dump(model, file)
 
