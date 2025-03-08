@@ -6,7 +6,6 @@ import os
 
 os.system("pip install -r requirements.txt")
 
-# Loading the Models
 stroke_model_path = "stroke_prediction_model.pkl"
 chf_model_path = "chf_prediction_model.pkl"
 
@@ -60,7 +59,6 @@ if disease_type == "Stroke":
     bmi = st.number_input("BMI", min_value=10.0, max_value=50.0, value=25.0)
     smoking_status = st.selectbox("Smoking Status", ["Never smoked", "Formerly smoked", "Smokes", "Unknown"])
 
-    # Convert inputs to numerical format
     gender = 1 if gender == "Male" else 0
     hypertension = 1 if hypertension == "Yes" else 0
     heart_disease = 1 if heart_disease == "Yes" else 0
@@ -97,7 +95,6 @@ elif disease_type == "Congestive Heart Failure (CHF)":
     oldpeak = st.number_input("ST Depression (Oldpeak)", min_value=0.0, max_value=6.0, value=1.0)
     st_slope = st.selectbox("ST Slope", ["Up", "Flat", "Down"])
 
-    # Convert categorical inputs to numerical values
     sex = 1 if sex == "Male" else 0
     chest_pain = ["Typical Angina", "Atypical Angina", "Non-Anginal Pain", "Asymptomatic"].index(chest_pain)
     fasting_bs = 1 if fasting_bs == "Yes" else 0
